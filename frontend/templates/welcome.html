@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КОНТРОЛЕН ПАНЕЛ - MEME FORGE</title>
+    <link rel="stylesheet" href="./css/welcome.css">
+</head>
+<body>
+    <nav>
+        <a href="meme_generator.php">▶ ГЕНЕРАТОР</a>
+        <a href="logout.php">◆ ИЗХОД</a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-icon">⚡</div>
+            <h1>ДОБРЕ ДОШЪЛ, <?php echo htmlspecialchars(strtoupper($username)); ?>!</h1>
+            <p id="welcome">Системата е активна. Готов си за създаване.</p>
+        </div>
+
+        <div class="command-panel">
+            <h2>&gt; МИСИЯ: Създай Незабравими Мемета</h2>
+            <p>В MEME FORGE можеш да създаваш невероятни, уникални и епични мемета, които ще господстват в дигиталното пространство.</p>
+
+            <h3>&gt; СИСТЕМНИ ВЪЗМОЖНОСТИ:</h3>
+            <ul class="list">
+                <li>Избор от професионални шаблони и качване на собствени изображения</li>
+                <li>Персонализиран текст с пълен контрол</li>
+                <li>Визуализация в реално време</li>
+                <li>Моментално генериране и изтегляне</li>
+                <li>Оптимизирано за максимално качество</li>
+            </ul>
+
+            <h3>&gt; КАКВО ТЕ ОЧАКВА:</h3>
+            <ul class="list">
+                <li>Интуитивен интерфейс за бързо създаване</li>
+                <li>Готови шаблони за всяка ситуация</li>
+                <li>Неограничена креативност</li>
+                <li>Професионални резултати</li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-title">СТАРТИРАЙ СЕГА!</div>
+            <p class="cta-description">Твоята креативност няма граници. Създавай, експериментирай и господствай в света на мемето! ⚡</p>
+            <div class="btn-group">
+                <a href="meme_generator.php" class="btn btn-primary">
+                    <span>▶</span>
+                    <span>ОТВОРИ ГЕНЕРАТОР</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

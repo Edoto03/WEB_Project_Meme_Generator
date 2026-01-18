@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ГЕНЕРАТОР - MEME FORGE</title>
+    <link rel="stylesheet" href="../css/meme_generator.css">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-buttons">
+            <a href="../welcome.php">⬅ НАЧАЛО</a>
+            <a href="../meme_generator.php">⚡ ГЕНЕРАТОР</a>
+            <a href="../logout.php">◆ ИЗХОД</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>▶ ШАБЛОНИ</h2>
+            <div class="templates">
+                <div class="template-item" data-template="Trollface.jpg">
+                    <img src="https://templated.co/meme-templates/wp-content/uploads/spongebob-meme-template-image-1024x576.jpg" alt="Template 1">
+                </div>
+                <div class="template-item" data-template="LeonardoDiCaprio.jpg">
+                    <img src="https://images.wondershare.com/filmora/article-images/best-meme-templates-01.jpg" alt="Template 2">
+                </div>
+                <div class="template-item" data-template="Trollface.jpg">
+                    <img src="https://i.imgflip.com/4/2gnnjh.jpg" alt="Template 3">
+                </div>
+                <div class="template-item" data-template="LeonardoDiCaprio.jpg">
+                    <img src="https://i.ytimg.com/vi/rWYqdxgwte4/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gPCg2MA8=&rs=AOn4CLAKgfvI5d49_9WL2fwl2WwXucRx3Q" alt="Template 4">
+                </div>
+                <div class="template-item" data-template="Trollface.jpg">
+                    <img src="https://i.imgflip.com/4/oqii0.jpg" alt="Template 5">
+                </div>
+                <div class="template-item" data-template="LeonardoDiCaprio.jpg">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8pYnw52xBdHfclhhiHYlwIPj9aF4akk6SaQ&s" alt="Template 6">
+                </div>
+                <div class="template-item" data-template="Trollface.jpg">
+                    <img src="https://i.pinimg.com/474x/07/9a/5e/079a5e7ef24cef792d82a5f3fb443d02.jpg" alt="Template 7">
+                </div>
+                <div class="template-item" data-template="LeonardoDiCaprio.jpg">
+                    <img src="https://i.imgflip.com/15lwvm.jpg" alt="Template 8">
+                </div>
+                <div class="template-item" data-template="Trollface.jpg">
+                    <img src="https://i.imgflip.com/4/1bhk.jpg" alt="Template 9">
+                </div>
+                <div class="template-item" data-template="LeonardoDiCaprio.jpg">
+                    <img src="https://searchmemes.in/_next/image?url=https%3A%2F%2Fsearchmemes.in%2Ftemplates%2Fed6aad57-4424-47f3-b2d7-689e55ddd360.webp&w=3840&q=75" alt="Template 10">
+                </div>
+                <div class="template-item" data-template="Trollface.jpg">
+                    <img src="https://memeheist.com/wp-content/uploads/2023/10/Patrick-Bateman-Sigma-Face-Meme-Template-1.jpg" alt="Template 11">
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>⚡ MEME GENERATOR</h1>
+            
+            <div class="upload-section">
+                <label for="upload">▶ КАЧИ СВОЯ СНИМКА</label>
+                <label for="upload" class="upload-btn">ИЗБЕРИ ФАЙЛ</label>
+                <input type="file" id="upload" accept="image/*">
+            </div>
+
+            <div class="meme-form">
+                <div class="form-group">
+                    <label for="top_text">▶ ГОРЕН ТЕКСТ</label>
+                    <input type="text" id="top_text" placeholder="ВЪВЕДИ ГОРЕН ТЕКСТ">
+                </div>
+
+                <div class="form-group">
+                    <label for="bottom_text">▶ ДОЛЕН ТЕКСТ</label>
+                    <input type="text" id="bottom_text" placeholder="ВЪВЕДИ ДОЛЕН ТЕКСТ">
+                </div>
+
+                <canvas id="memeCanvas"></canvas>
+
+                <button id="downloadButton">ИЗТЕГЛИ МЕМЕТО</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/meme_generator.js"></script>
+</body>
+</html>
