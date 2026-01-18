@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>РЕГИСТРАЦИЯ - MEME FORGE</title>
     <link rel="stylesheet" href="./css/register.css">
-    <script src="./js/validate.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="logo-mini">◆</div>
         <h1>НОВ ПОТРЕБИТЕЛ</h1>
-        <p class="subtitle">Създай Своя Профил</p>
+        <p class="subtitle">Създай своя профил</p>
 
         <?php if (!empty($errors)): ?>
             <div class="error">
                 <?php foreach ($errors as $error): ?>
-                    <p>▲ <?php echo htmlspecialchars($error); ?></p>
+                    <p>✗ <?php echo htmlspecialchars($error); ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
@@ -24,23 +23,25 @@
         <form method="POST" onsubmit="return validateRegisterForm()">
             <div class="form-group">
                 <label for="username">▶ ПОТРЕБИТЕЛ</label>
-                <input type="text" id="username" name="username" placeholder="ВАШЕТО ИМЕ" required>
+                <input type="text" id="username" name="username" placeholder="твоето име" required autocomplete="username">
             </div>
 
             <div class="form-group">
                 <label for="email">▶ EMAIL</label>
-                <input type="email" id="email" name="email" placeholder="ВАШИЯТ EMAIL" required>
+                <input type="email" id="email" name="email" placeholder="твоят email" required autocomplete="email">
             </div>
 
             <div class="form-group">
                 <label for="password">▶ ПАРОЛА</label>
-                <input type="password" id="password" name="password" placeholder="МИН. 6 СИМВОЛА" required>
+                <input type="password" id="password" name="password" placeholder="мин. 6 символа" required autocomplete="new-password">
             </div>
 
             <button type="submit" class="btn">СЪЗДАЙ АКАУНТ</button>
         </form>
 
-        <p>ВЕЧЕ ИМАШ АКАУНТ? <a href="login.php">ВЛЕЗ ТУК</a></p>
+        <p>Вече имаш акаунт? <a href="login.php">Влез тук</a></p>
     </div>
+
+    <script src="./js/validate.js"></script>
 </body>
 </html>

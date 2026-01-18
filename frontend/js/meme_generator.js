@@ -1,153 +1,117 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const templateItems = document.querySelectorAll('.template-item img');
-    if (templateItems.length === 0) {
-        console.error('Няма намерени .template-item елементи!');
-    } else {
-        console.log('Намерени', templateItems.length, 'шаблона.');
-    }
-    templateItems.forEach(img => {
-        img.addEventListener('click', () => {
-            console.log('Клик върху шаблон:', img.src);
-            selectTemplate(img);
-        });
-    });
-    updatePreview(); 
-});
-
 const canvas = document.getElementById('memeCanvas');
 const ctx = canvas.getContext('2d');
 const topTextInput = document.getElementById('top_text');
 const bottomTextInput = document.getElementById('bottom_text');
 const fileInput = document.getElementById('upload');
 const downloadButton = document.getElementById('downloadButton');
+
 let selectedImage = null;
 
-function selectTemplate(img) {
-    document.querySelectorAll('.template-item').forEach(item => item.classList.remove('selected'));
-    img.parentElement.classList.add('selected');
+// Избор на шаблон
+document.querySelectorAll('.template-item').forEach(item => {
+    item.addEventListener('click', () => {
+        // Премахни selected от всички
+        document.querySelectorAll('.template-item').forEach(t => t.classList.remove('selected'));
+        
+        // Добави selected на избрания
+        item.classList.add('selected');
+        
+        // Изчисти file input
+        fileInput.value = '';
+        
+        // Зареди изображението
+        const img = item.querySelector('img');
+        selectedImage = new Image();
+        selectedImage.src = img.src;
+        selectedImage.onload = () => {
+            updatePreview();
+            downloadButton.style.display = 'block';
+        };
+    });
+});
 
-    fileInput.value = '';
-
-    selectedImage = new Image();
-    selectedImage.crossOrigin = "Anonymous"; 
-    let imgSrc = img.src;
-    console.log('Опит за зареждане на изображение от:', imgSrc);
-
-    if (imgSrc.startsWith('http') && !imgSrc.includes('api.allorigins.win')) {
-        imgSrc = `https://api.allorigins.win/raw?url=${encodeURIComponent(imgSrc)}`;
-        console.log('Прокси URL:', imgSrc);
-    }
-    selectedImage.src = imgSrc;
-
-    selectedImage.addEventListener('load', () => {
-        console.log('Изображението е заредено успешно:', selectedImage.width, 'x', selectedImage.height);
-        updatePreview();
-        downloadButton.style.display = 'block';
-    }, { once: true });
-
-    selectedImage.addEventListener('error', (e) => {
-        console.error('Грешка при зареждане на изображението:', e);
-        alert('Грешка при зареждане на шаблона. Моля, изберете друг шаблон.');
-        selectedImage = null;
-        updatePreview();
-    }, { once: true });
-}
-
-function handleUpload() {
+// Качване на файл
+fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     if (file) {
-        if (!['image/jpeg', 'image/png'].includes(file.type)) {
-            alert('Моля, качете файл в JPEG или PNG формат.');
-            fileInput.value = '';
-            updatePreview();
-            return;
-        }
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = (e) => {
             selectedImage = new Image();
             selectedImage.src = e.target.result;
-            selectedImage.addEventListener('load', () => {
-                document.querySelectorAll('.template-item').forEach(item => item.classList.remove('selected'));
+            selectedImage.onload = () => {
+                document.querySelectorAll('.template-item').forEach(t => t.classList.remove('selected'));
                 updatePreview();
                 downloadButton.style.display = 'block';
-            }, { once: true });
-            selectedImage.addEventListener('error', () => {
-                alert('Грешка при четене на файла. Моля, опитайте отново.');
-                fileInput.value = '';
-                updatePreview();
-            }, { once: true });
-        };
-        reader.onerror = function() {
-            alert('Грешка при четене на файла. Моля, опитайте отново.');
-            fileInput.value = '';
-            updatePreview();
+            };
         };
         reader.readAsDataURL(file);
-    } else {
-        updatePreview();
     }
-}
+});
 
+// Обновяване на текст
+topTextInput.addEventListener('input', updatePreview);
+bottomTextInput.addEventListener('input', updatePreview);
+
+// Обновяване на прегледа
 function updatePreview() {
-    const topText = topTextInput.value.toUpperCase();
-    const bottomText = bottomTextInput.value.toUpperCase();
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     if (!selectedImage) {
-        canvas.width = 500;
-        canvas.height = 500;
-        ctx.fillStyle = '#ccc';
+        canvas.width = 600;
+        canvas.height = 400;
+        ctx.fillStyle = 'rgba(0, 240, 255, 0.1)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = '#00f0ff';
         ctx.font = '20px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('Избери шаблон или качи снимка', canvas.width / 2, canvas.height / 2);
+        ctx.fillText('▶ ИЗБЕРИ ШАБЛОН', canvas.width / 2, canvas.height / 2);
         downloadButton.style.display = 'none';
         return;
     }
 
+    // Настрой canvas
     canvas.width = selectedImage.width;
     canvas.height = selectedImage.height;
     ctx.drawImage(selectedImage, 0, 0);
 
+    // Текст настройки
     const fontSize = Math.floor(canvas.width / 10);
-    const yOffset = canvas.height / 25;
-
-    ctx.font = `bold ${fontSize}px Impact, Arial`;
+    ctx.font = `bold ${fontSize}px Impact, Arial Black`;
     ctx.textAlign = 'center';
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'black';
     ctx.lineWidth = Math.floor(fontSize / 4);
     ctx.lineJoin = 'round';
+    ctx.miterLimit = 2;
 
-    function drawText(text, x, y, baseline) {
-        if (text) {
-            ctx.textBaseline = baseline;
-            ctx.strokeText(text, x, y);
-            ctx.fillText(text, x, y);
-        }
+    // Горен текст
+    const topText = topTextInput.value.toUpperCase();
+    if (topText) {
+        ctx.textBaseline = 'top';
+        const y = fontSize * 0.5;
+        ctx.strokeText(topText, canvas.width / 2, y);
+        ctx.fillText(topText, canvas.width / 2, y);
     }
 
-    drawText(topText, canvas.width / 2, yOffset, 'top');
-    drawText(bottomText, canvas.width / 2, canvas.height - yOffset, 'bottom');
+    // Долен текст
+    const bottomText = bottomTextInput.value.toUpperCase();
+    if (bottomText) {
+        ctx.textBaseline = 'bottom';
+        const y = canvas.height - fontSize * 0.5;
+        ctx.strokeText(bottomText, canvas.width / 2, y);
+        ctx.fillText(bottomText, canvas.width / 2, y);
+    }
 }
 
-function downloadMeme() {
+// Изтегляне
+downloadButton.addEventListener('click', () => {
     if (!selectedImage) {
-        alert('Моля, изберете шаблон или качете снимка.');
+        alert('Първо избери шаблон!');
         return;
     }
-    const dataUrl = canvas.toDataURL('image/png');
     const link = document.createElement('a');
-    link.href = dataUrl;
     link.download = `meme_${Date.now()}.png`;
-    document.body.appendChild(link);
+    link.href = canvas.toDataURL();
     link.click();
-    document.body.removeChild(link);
-}
+});
 
-topTextInput.addEventListener('input', updatePreview);
-bottomTextInput.addEventListener('input', updatePreview);
-fileInput.addEventListener('change', handleUpload);
-downloadButton.addEventListener('click', downloadMeme);
+// Начална визуализация
+updatePreview();

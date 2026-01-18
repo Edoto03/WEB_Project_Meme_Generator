@@ -67,6 +67,12 @@ nav a:hover {
     border-color: var(--neon-cyan);
 }
 
+nav a.active {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+    background: rgba(0, 240, 255, 0.1);
+}
+
 /* Контейнер */
 .container {
     position: relative;

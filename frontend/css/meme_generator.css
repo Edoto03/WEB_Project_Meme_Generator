@@ -69,9 +69,10 @@ body::before {
 }
 
 .nav-buttons a:hover,
-.nav-buttons a[href*="meme_generator"] {
+.nav-buttons a.active {
     color: var(--neon-cyan);
     border-color: var(--neon-cyan);
+    background: rgba(0, 240, 255, 0.1);
 }
 
 /* Основен контейнер */
