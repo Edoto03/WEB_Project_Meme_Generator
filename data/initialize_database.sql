@@ -2,9 +2,6 @@ DROP SCHEMA IF EXISTS meme_project;
 CREATE SCHEMA meme_project;
 USE meme_project;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-
 CREATE TABLE users (
   id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   username varchar(50) UNIQUE KEY NOT NULL,
