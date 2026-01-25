@@ -2,7 +2,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'meme_project');
 define('DB_USER', 'root');
-define('DB_PASS', '1234');
+define('DB_PASS', '');
 
 $scriptName = $_SERVER['SCRIPT_NAME'];
 $pathArray = explode('/', $scriptName);
