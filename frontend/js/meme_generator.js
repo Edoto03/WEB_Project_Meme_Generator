@@ -7,19 +7,14 @@ const downloadButton = document.getElementById('downloadButton');
 
 let selectedImage = null;
 
-// Избор на шаблон
 document.querySelectorAll('.template-item').forEach(item => {
     item.addEventListener('click', () => {
-        // Премахни selected от всички
         document.querySelectorAll('.template-item').forEach(t => t.classList.remove('selected'));
         
-        // Добави selected на избрания
         item.classList.add('selected');
         
-        // Изчисти file input
         fileInput.value = '';
         
-        // Зареди изображението
         const img = item.querySelector('img');
         selectedImage = new Image();
         selectedImage.src = img.src;
@@ -30,7 +25,6 @@ document.querySelectorAll('.template-item').forEach(item => {
     });
 });
 
-// Качване на файл
 fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     if (file) {
@@ -48,11 +42,9 @@ fileInput.addEventListener('change', () => {
     }
 });
 
-// Обновяване на текст
 topTextInput.addEventListener('input', updatePreview);
 bottomTextInput.addEventListener('input', updatePreview);
 
-// Обновяване на прегледа
 function updatePreview() {
     if (!selectedImage) {
         canvas.width = 600;
@@ -67,12 +59,10 @@ function updatePreview() {
         return;
     }
 
-    // Настрой canvas
     canvas.width = selectedImage.width;
     canvas.height = selectedImage.height;
     ctx.drawImage(selectedImage, 0, 0);
 
-    // Текст настройки
     const fontSize = Math.floor(canvas.width / 10);
     ctx.font = `bold ${fontSize}px Impact, Arial Black`;
     ctx.textAlign = 'center';
@@ -82,7 +72,6 @@ function updatePreview() {
     ctx.lineJoin = 'round';
     ctx.miterLimit = 2;
 
-    // Горен текст
     const topText = topTextInput.value.toUpperCase();
     if (topText) {
         ctx.textBaseline = 'top';
@@ -91,7 +80,6 @@ function updatePreview() {
         ctx.fillText(topText, canvas.width / 2, y);
     }
 
-    // Долен текст
     const bottomText = bottomTextInput.value.toUpperCase();
     if (bottomText) {
         ctx.textBaseline = 'bottom';
@@ -101,7 +89,6 @@ function updatePreview() {
     }
 }
 
-// Изтегляне
 downloadButton.addEventListener('click', () => {
     if (!selectedImage) {
         alert('Първо избери шаблон!');
@@ -113,5 +100,4 @@ downloadButton.addEventListener('click', () => {
     link.click();
 });
 
-// Начална визуализация
 updatePreview();
