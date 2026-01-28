@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="bg">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>КОНТРОЛЕН ПАНЕЛ - MEME FORGE</title>
     <link rel="stylesheet" href="./css/welcome.css">
 </head>
+
 <body>
-    <nav>
-        <a href="welcome.php" class="active">▶ НАЧАЛО</a>
-        <a href="meme_generator.php">⚡ ГЕНЕРАТОР</a>
-        <a href="logout.php">◆ ИЗХОД</a>
+    <nav class="top-nav">
+        <div class="nav-buttons">
+            <a href="welcome.php">⬅ НАЧАЛО</a>
+            <a href="meme_generator.php">⚡ ГЕНЕРАТОР</a>
+            <a href="history.php">📜 ИСТОРИЯ</a>
+            <a href="logout.php">◆ ИЗХОД</a>
+        </div>
     </nav>
 
     <div class="container">
         <div class="hero">
             <div class="hero-icon">⚡</div>
-            <h1>ДОБРЕ ДОШЛИ, <?php echo htmlspecialchars(strtoupper($username)); ?>!</h1>
+            <h1>ДОБРЕ ДОШЛИ,
+                <?php echo htmlspecialchars(strtoupper($username)); ?>!
+            </h1>
             <p id="welcome">Системата е активна. Готов си за създаване.</p>
         </div>
 
         <div class="command-panel">
             <h2>&gt; МИСИЯ: Създай Незабравими Мемета</h2>
-            <p>В MEME FORGE можеш да създаваш невероятни, уникални и епични мемета, които ще господстват в дигиталното пространство.</p>
+            <p>В MEME FORGE можеш да създаваш невероятни, уникални и епични мемета, които ще господстват в дигиталното
+                пространство.</p>
 
             <h3>&gt; СИСТЕМНИ ВЪЗМОЖНОСТИ:</h3>
             <ul class="list">
@@ -44,7 +52,8 @@
 
         <div class="cta-section">
             <div class="cta-title">СТАРТИРАЙ СЕГА!</div>
-            <p class="cta-description">Твоята креативност няма граници. Създавай, експериментирай и господствай в света на мемето! ⚡</p>
+            <p class="cta-description">Твоята креативност няма граници. Създавай, експериментирай и господствай в света
+                на мемето! ⚡</p>
             <div class="btn-group">
                 <a href="meme_generator.php" class="btn btn-primary">
                     <span>▶</span>
@@ -54,4 +63,5 @@
         </div>
     </div>
 </body>
+
 </html>
