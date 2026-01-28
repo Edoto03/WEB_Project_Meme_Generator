@@ -23,114 +23,26 @@ function downloadMeme(memeId) {
 }
 
 function shareMeme(memeId) {
-    const shareUrl = `${window.location.origin}/meme_project/frontend/view_meme.php?id=${memeId}`;
+    const shareUrl = `${window.location.origin}${window.location.pathname}?meme=${memeId}`;
     
     navigator.clipboard.writeText(shareUrl).then(() => {
-        showToast('Линкът е копиран! 🔗');
-        
-        if (confirm('Искате ли да споделите в социалните мрежи?')) {
-            openShareDialog(shareUrl, memeId);
-        }
+        showToast('Линкът е копиран в клипборда! 🔗');
     }).catch(err => {
         console.error('Failed to copy:', err);
-        showToast('Грешка при копиране на линка ❌');
+        const textArea = document.createElement('textarea');
+        textArea.value = shareUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast('Линкът е копиран в клипборда! 🔗');
+        } catch (err) {
+            showToast('Грешка при копиране на линка ❌');
+        }
+        document.body.removeChild(textArea);
     });
-}
-
-function openShareDialog(url, memeId) {
-    const shareText = 'Виж това меме от MEME FORGE!';
-    
-    const dialog = document.createElement('div');
-    dialog.className = 'share-dialog';
-    dialog.innerHTML = `
-        <div class="share-dialog-content">
-            <h3>Сподели в:</h3>
-            <div class="share-buttons">
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" 
-                   target="_blank" class="share-btn facebook">
-                    📘 Facebook
-                </a>
-                <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}" 
-                   target="_blank" class="share-btn twitter">
-                    🐦 Twitter
-                </a>
-                <a href="https://wa.me/?text=${encodeURIComponent(shareText + ' ' + url)}" 
-                   target="_blank" class="share-btn whatsapp">
-                    💬 WhatsApp
-                </a>
-            </div>
-            <button onclick="closeShareDialog()" class="btn-close">Затвори</button>
-        </div>
-    `;
-    
-    document.body.appendChild(dialog);
-    
-    const style = document.createElement('style');
-    style.textContent = `
-        .share-dialog {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10001;
-        }
-        .share-dialog-content {
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
-            border: 2px solid #00f0ff;
-            max-width: 400px;
-            text-align: center;
-        }
-        .share-dialog-content h3 {
-            color: #00f0ff;
-            margin-bottom: 20px;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .share-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .share-btn {
-            padding: 12px 20px;
-            text-decoration: none;
-            color: white;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .share-btn.facebook { background: #1877f2; }
-        .share-btn.twitter { background: #1da1f2; }
-        .share-btn.whatsapp { background: #25d366; }
-        .share-btn:hover { transform: scale(1.05); }
-        .btn-close {
-            background: transparent;
-            border: 2px solid #ff006e;
-            color: #ff006e;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .btn-close:hover {
-            background: rgba(255, 0, 110, 0.2);
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function closeShareDialog() {
-    const dialog = document.querySelector('.share-dialog');
-    if (dialog) {
-        dialog.remove();
-    }
 }
 
 function deleteMeme(memeId) {

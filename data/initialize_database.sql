@@ -19,4 +19,16 @@ INSERT INTO users (id, username, email, password, created_at) VALUES
 (6, 'Aleks_Gamer', 'sasho06@abv.bg', '$2y$10$F/WxeIH1vCgold6eN.MPweqIgRWGtW8f7UxGvcyVza/opRikkIHJO', '2026-01-15 20:10:40'),
 (7, 'EdiAndAleks', 'ediz_aleks_fen@abv.bg', '$2y$10$b0ntzj0B9HEVkQi0AnTfqecsOdNIBfH9W3vmsm8CSDXtLgHjg7Ynm', '2026-01-19 23:05:12');
 
+CREATE TABLE meme_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    image_data LONGTEXT NOT NULL,
+    top_text VARCHAR(255) DEFAULT '',
+    bottom_text VARCHAR(255) DEFAULT '',
+    template_url VARCHAR(500) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user_created (user_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 COMMIT;

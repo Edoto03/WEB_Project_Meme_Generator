@@ -1,5 +1,5 @@
 <?php
-require '../backend/db.php';
+require_once '../backend/db.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-header("Location: templates/meme_generator.html");
-exit;
+// ВАЖНО: Тук не трябва да има "header(Location: templates/...)"
+// Трябва да е require:
+require 'templates/meme_generator.html'; 
 ?>

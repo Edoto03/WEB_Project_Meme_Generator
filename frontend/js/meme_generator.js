@@ -5,29 +5,30 @@ const bottomTextInput = document.getElementById('bottom_text');
 const fileInput = document.getElementById('upload');
 const downloadButton = document.getElementById('downloadButton');
 
+// Text styling controls
+const topColorInput = document.getElementById('top_color');
+const bottomColorInput = document.getElementById('bottom_color');
+const topFontSelect = document.getElementById('top_font');
+const bottomFontSelect = document.getElementById('bottom_font');
+const topSizeInput = document.getElementById('top_size');
+const bottomSizeInput = document.getElementById('bottom_size');
+
 // Променливи за състоянието
 let selectedImage = null;
-let currentTemplateUrl = null; // Добавено: пази URL на избрания шаблон
+let currentTemplateUrl = null;
 
 // 1. Логика за избор на шаблон
 document.querySelectorAll('.template-item').forEach(item => {
     item.addEventListener('click', () => {
-        // Премахване на селекцията от другите
         document.querySelectorAll('.template-item').forEach(t => t.classList.remove('selected'));
-        
         item.classList.add('selected');
-        
-        // Ресет на полето за качване на файл
         fileInput.value = '';
         
         const img = item.querySelector('img');
-        
-        // ЗАПАЗВАМЕ URL НА ШАБЛОНА ЗА БАЗАТА ДАННИ
         currentTemplateUrl = img.src; 
         
         selectedImage = new Image();
         selectedImage.src = img.src;
-        // Трябва да позволим крос-ориджин за правилно експортиране на canvas
         selectedImage.crossOrigin = "Anonymous"; 
         
         selectedImage.onload = () => {
@@ -41,7 +42,6 @@ document.querySelectorAll('.template-item').forEach(item => {
 fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     if (file) {
-        // АКО КАЧВАМЕ СОБСТВЕН ФАЙЛ, НЯМАМЕ TEMPLATE URL
         currentTemplateUrl = null; 
         
         const reader = new FileReader();
@@ -58,9 +58,15 @@ fileInput.addEventListener('change', () => {
     }
 });
 
-// Listener-и за писане на текст
+// Listener-и за писане на текст и промяна на стилове
 topTextInput.addEventListener('input', updatePreview);
 bottomTextInput.addEventListener('input', updatePreview);
+topColorInput.addEventListener('input', updatePreview);
+bottomColorInput.addEventListener('input', updatePreview);
+topFontSelect.addEventListener('change', updatePreview);
+bottomFontSelect.addEventListener('change', updatePreview);
+topSizeInput.addEventListener('input', updatePreview);
+bottomSizeInput.addEventListener('input', updatePreview);
 
 // 3. Основна функция за рисуване (Update Preview)
 function updatePreview() {
@@ -81,34 +87,48 @@ function updatePreview() {
     canvas.height = selectedImage.height;
     ctx.drawImage(selectedImage, 0, 0);
 
-    const fontSize = Math.floor(canvas.width / 10);
-    ctx.font = `bold ${fontSize}px Impact, Arial Black`;
     ctx.textAlign = 'center';
-    ctx.fillStyle = 'white';
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = Math.floor(fontSize / 4);
     ctx.lineJoin = 'round';
     ctx.miterLimit = 2;
 
+    // Горен текст със стилове
     const topText = topTextInput.value.toUpperCase();
     if (topText) {
+        const topSize = parseInt(topSizeInput.value);
+        const topFont = topFontSelect.value;
+        const topColor = topColorInput.value;
+        
+        ctx.font = `bold ${topSize}px ${topFont}`;
+        ctx.fillStyle = topColor;
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = Math.floor(topSize / 4);
         ctx.textBaseline = 'top';
-        const y = fontSize * 0.5;
+        
+        const y = topSize * 0.5;
         ctx.strokeText(topText, canvas.width / 2, y);
         ctx.fillText(topText, canvas.width / 2, y);
     }
 
+    // Долен текст със стилове
     const bottomText = bottomTextInput.value.toUpperCase();
     if (bottomText) {
+        const bottomSize = parseInt(bottomSizeInput.value);
+        const bottomFont = bottomFontSelect.value;
+        const bottomColor = bottomColorInput.value;
+        
+        ctx.font = `bold ${bottomSize}px ${bottomFont}`;
+        ctx.fillStyle = bottomColor;
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = Math.floor(bottomSize / 4);
         ctx.textBaseline = 'bottom';
-        const y = canvas.height - fontSize * 0.5;
+        
+        const y = canvas.height - bottomSize * 0.5;
         ctx.strokeText(bottomText, canvas.width / 2, y);
         ctx.fillText(bottomText, canvas.width / 2, y);
     }
 }
 
 // 4. СВЪРЗВАНЕ НА БУТОНА С НОВАТА ФУНКЦИЯ
-// Тук беше проблемът - сега извикваме новата функция downloadAndSaveMeme
 downloadButton.addEventListener('click', downloadAndSaveMeme);
 
 // 5. Обединена функция за Сваляне + Запазване
@@ -118,14 +138,13 @@ function downloadAndSaveMeme() {
         return;
     }
     
-    // Взимаме изображението като Data URL
     const dataUrl = canvas.toDataURL('image/png');
     
     // А) Сваляне на устройството (Download)
     const link = document.createElement('a');
     link.download = `meme_${Date.now()}.png`;
     link.href = dataUrl;
-    document.body.appendChild(link); // За съвместимост с Firefox
+    document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
@@ -138,14 +157,11 @@ function saveMemeToHistory(imageData) {
     const topText = topTextInput.value;
     const bottomText = bottomTextInput.value;
     
-    // Увери се, че пътят до save_meme.php е правилен спрямо този JS файл
-    // Ако JS е в /js/, а php е в главната, може да е '../save_meme.php' или просто 'save_meme.php'
-    fetch('save_meme.php', {
+    fetch('save_meme.php', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        // Изпращаме данните, включително template_url
         body: `image_data=${encodeURIComponent(imageData)}&top_text=${encodeURIComponent(topText)}&bottom_text=${encodeURIComponent(bottomText)}&template_url=${encodeURIComponent(currentTemplateUrl || '')}`
     })
     .then(response => response.json())
@@ -154,7 +170,6 @@ function saveMemeToHistory(imageData) {
             showSuccessMessage('Мемето е запазено в историята! ✅');
         } else {
             console.error('Failed to save meme:', data.error);
-            // Опционално: showSuccessMessage('Грешка при запазване: ' + data.error);
         }
     })
     .catch(error => {
@@ -164,7 +179,6 @@ function saveMemeToHistory(imageData) {
 
 // 7. Функция за показване на Toast съобщение
 function showSuccessMessage(message) {
-    // Проверка дали вече няма toast, за да не се трупат
     const existingToast = document.querySelector('.save-toast');
     if (existingToast) existingToast.remove();
 
@@ -172,7 +186,6 @@ function showSuccessMessage(message) {
     toast.className = 'save-toast';
     toast.textContent = message;
     
-    // Инлайн стилове за по-бързо прилагане
     toast.style.cssText = `
         position: fixed;
         bottom: 30px;
@@ -190,9 +203,8 @@ function showSuccessMessage(message) {
     
     document.body.appendChild(toast);
     
-    // Премахване след 3 секунди
     setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s ease forwards'; // forwards запазва крайното състояние
+        toast.style.animation = 'slideOut 0.3s ease forwards';
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }

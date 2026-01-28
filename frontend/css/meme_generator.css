@@ -240,6 +240,99 @@ h1 {
     box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
 }
 
+/* Text Styling Controls */
+.text-styling-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 8px;
+}
+
+.style-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.style-control label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(0, 240, 255, 0.8);
+}
+
+.style-control input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.style-control input[type="color"]:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.style-control select {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.style-control select:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.style-control select option {
+    background: #0a0a0f;
+    color: #fff;
+}
+
+.style-control input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 240, 255, 0.2);
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.style-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.style-control input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+    border: none;
+}
+
 canvas {
     display: block;
     margin: 30px auto;
@@ -291,5 +384,10 @@ canvas {
     .nav-buttons a {
         font-size: 0.75rem;
         padding: 8px 15px;
+    }
+    
+    .text-styling-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 }

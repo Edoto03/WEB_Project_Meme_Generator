@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="bg">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ГЕНЕРАТОР - MEME FORGE</title>
-    <link rel="stylesheet" href="../css/meme_generator.css">
+    <link rel="stylesheet" href="css/meme_generator.css">
 </head>
+
 <body>
     <nav class="top-nav">
         <div class="nav-buttons">
@@ -23,46 +25,46 @@
             <h2>▶ ИЗБЕРИ ШАБЛОН</h2>
             <div class="templates">
                 <div class="template-item">
-                    <img src="../image_templates/template1.jpg" alt="Template 1">
+                    <img src="image_templates/template1.jpg" alt="Template 1">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template2.jpg" alt="Template 2">
+                    <img src="image_templates/template2.jpg" alt="Template 2">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template3.jpg" alt="Template 3">
+                    <img src="image_templates/template3.jpg" alt="Template 3">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template4.jpg" alt="Template 4">
+                    <img src="image_templates/template4.jpg" alt="Template 4">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template5.jpg" alt="Template 5">
+                    <img src="image_templates/template5.jpg" alt="Template 5">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template6.jpg" alt="Template 6">
+                    <img src="image_templates/template6.jpg" alt="Template 6">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template7.jpg" alt="Template 7">
+                    <img src="image_templates/template7.jpg" alt="Template 7">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template8.jpg" alt="Template 8">
+                    <img src="image_templates/template8.jpg" alt="Template 8">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template9.jpg" alt="Template 9">
+                    <img src="image_templates/template9.jpg" alt="Template 9">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template10.jpg" alt="Template 10">
+                    <img src="image_templates/template10.jpg" alt="Template 10">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template11.jpg" alt="Template 11">
+                    <img src="image_templates/template11.jpg" alt="Template 11">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template12.jpg" alt="Template 12">
+                    <img src="image_templates/template12.jpg" alt="Template 12">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template13.jpg" alt="Template 13">
+                    <img src="image_templates/template13.jpg" alt="Template 13">
                 </div>
                 <div class="template-item">
-                    <img src="../image_templates/template14.jpg" alt="Template 14">
+                    <img src="image_templates/template14.jpg" alt="Template 14">
                 </div>
             </div>
         </div>
@@ -74,14 +76,64 @@
         </div>
 
         <div class="meme-form">
+            <!-- Горен текст -->
             <div class="form-group">
                 <label for="top_text">▶ ГОРЕН ТЕКСТ</label>
                 <input type="text" id="top_text" placeholder="въведи горен текст">
             </div>
 
+            <!-- Горен текст стилове -->
+            <div class="text-styling-group">
+                <div class="style-control">
+                    <label for="top_color">ЦВЯТ</label>
+                    <input type="color" id="top_color" value="#ffffff">
+                </div>
+                <div class="style-control">
+                    <label for="top_font">ШРИФТ</label>
+                    <select id="top_font">
+                        <option value="Impact">Impact</option>
+                        <option value="Arial Black">Arial Black</option>
+                        <option value="Comic Sans MS">Comic Sans MS</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+                <div class="style-control">
+                    <label for="top_size">РАЗМЕР: <span id="top_size_value">60</span></label>
+                    <input type="range" id="top_size" min="20" max="150" value="60">
+                </div>
+            </div>
+
+            <!-- Долен текст -->
             <div class="form-group">
                 <label for="bottom_text">▶ ДОЛЕН ТЕКСТ</label>
                 <input type="text" id="bottom_text" placeholder="въведи долен текст">
+            </div>
+
+            <!-- Долен текст стилове -->
+            <div class="text-styling-group">
+                <div class="style-control">
+                    <label for="bottom_color">ЦВЯТ</label>
+                    <input type="color" id="bottom_color" value="#ffffff">
+                </div>
+                <div class="style-control">
+                    <label for="bottom_font">ШРИФТ</label>
+                    <select id="bottom_font">
+                        <option value="Impact">Impact</option>
+                        <option value="Arial Black">Arial Black</option>
+                        <option value="Comic Sans MS">Comic Sans MS</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+                <div class="style-control">
+                    <label for="bottom_size">РАЗМЕР: <span id="bottom_size_value">60</span></label>
+                    <input type="range" id="bottom_size" min="20" max="150" value="60">
+                </div>
             </div>
 
             <canvas id="memeCanvas"></canvas>
@@ -90,6 +142,16 @@
         </div>
     </div>
 
-    <script src="../js/meme_generator.js"></script>
+    <script>
+        // Update size value displays
+        document.getElementById('top_size').addEventListener('input', function() {
+            document.getElementById('top_size_value').textContent = this.value;
+        });
+        document.getElementById('bottom_size').addEventListener('input', function() {
+            document.getElementById('bottom_size_value').textContent = this.value;
+        });
+    </script>
+    <script src="js/meme_generator.js"></script>
 </body>
+
 </html>
