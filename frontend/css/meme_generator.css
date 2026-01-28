@@ -342,21 +342,45 @@ canvas {
     background: rgba(0, 0, 0, 0.5);
 }
 
-#downloadButton {
-    width: 100%;
+/* Button Group with TWO buttons */
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+#downloadButton,
+#saveButton {
     padding: 18px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 900;
     letter-spacing: 2px;
     background: transparent;
-    border: 2px solid var(--neon-green);
-    color: var(--neon-green);
+    border: 2px solid;
+    color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: none;
+}
+
+#downloadButton {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
 }
 
 #downloadButton:hover {
+    background: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+}
+
+#saveButton {
+    border-color: var(--neon-green);
+    color: var(--neon-green);
+}
+
+#saveButton:hover {
     background: rgba(57, 255, 20, 0.1);
     box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
 }
@@ -389,5 +413,16 @@ canvas {
     .text-styling-group {
         grid-template-columns: 1fr;
         gap: 12px;
+    }
+    
+    .button-group {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    #downloadButton,
+    #saveButton {
+        font-size: 0.9rem;
+        padding: 15px;
     }
 }

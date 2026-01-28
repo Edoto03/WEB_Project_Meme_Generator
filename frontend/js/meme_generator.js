@@ -4,6 +4,7 @@ const topTextInput = document.getElementById('top_text');
 const bottomTextInput = document.getElementById('bottom_text');
 const fileInput = document.getElementById('upload');
 const downloadButton = document.getElementById('downloadButton');
+const saveButton = document.getElementById('saveButton');
 
 // Text styling controls
 const topColorInput = document.getElementById('top_color');
@@ -33,7 +34,8 @@ document.querySelectorAll('.template-item').forEach(item => {
         
         selectedImage.onload = () => {
             updatePreview();
-            downloadButton.style.display = 'block';
+            downloadButton.style.display = 'inline-block';
+            saveButton.style.display = 'inline-block';
         };
     });
 });
@@ -51,7 +53,8 @@ fileInput.addEventListener('change', () => {
             selectedImage.onload = () => {
                 document.querySelectorAll('.template-item').forEach(t => t.classList.remove('selected'));
                 updatePreview();
-                downloadButton.style.display = 'block';
+                downloadButton.style.display = 'inline-block';
+                saveButton.style.display = 'inline-block';
             };
         };
         reader.readAsDataURL(file);
@@ -80,6 +83,7 @@ function updatePreview() {
         ctx.textAlign = 'center';
         ctx.fillText('▶ ИЗБЕРИ ШАБЛОН', canvas.width / 2, canvas.height / 2);
         downloadButton.style.display = 'none';
+        saveButton.style.display = 'none';
         return;
     }
 
@@ -128,11 +132,10 @@ function updatePreview() {
     }
 }
 
-// 4. СВЪРЗВАНЕ НА БУТОНА С НОВАТА ФУНКЦИЯ
-downloadButton.addEventListener('click', downloadAndSaveMeme);
+// 4. DOWNLOAD BUTTON - само изтегля мемето
+downloadButton.addEventListener('click', downloadMeme);
 
-// 5. Обединена функция за Сваляне + Запазване
-function downloadAndSaveMeme() {
+function downloadMeme() {
     if (!selectedImage) {
         alert('Моля, изберете шаблон или качете снимка.');
         return;
@@ -140,7 +143,6 @@ function downloadAndSaveMeme() {
     
     const dataUrl = canvas.toDataURL('image/png');
     
-    // А) Сваляне на устройството (Download)
     const link = document.createElement('a');
     link.download = `meme_${Date.now()}.png`;
     link.href = dataUrl;
@@ -148,12 +150,19 @@ function downloadAndSaveMeme() {
     link.click();
     document.body.removeChild(link);
     
-    // Б) Запазване в базата данни (Save to DB)
-    saveMemeToHistory(dataUrl);
+    showSuccessMessage('Мемето е изтеглено! ⬇️');
 }
 
-// 6. Функция за изпращане към PHP
-function saveMemeToHistory(imageData) {
+// 5. SAVE BUTTON - запазва в историята
+saveButton.addEventListener('click', saveMemeToHistory);
+
+function saveMemeToHistory() {
+    if (!selectedImage) {
+        alert('Моля, изберете шаблон или качете снимка.');
+        return;
+    }
+    
+    const dataUrl = canvas.toDataURL('image/png');
     const topText = topTextInput.value;
     const bottomText = bottomTextInput.value;
     
@@ -162,23 +171,24 @@ function saveMemeToHistory(imageData) {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `image_data=${encodeURIComponent(imageData)}&top_text=${encodeURIComponent(topText)}&bottom_text=${encodeURIComponent(bottomText)}&template_url=${encodeURIComponent(currentTemplateUrl || '')}`
+        body: `image_data=${encodeURIComponent(dataUrl)}&top_text=${encodeURIComponent(topText)}&bottom_text=${encodeURIComponent(bottomText)}&template_url=${encodeURIComponent(currentTemplateUrl || '')}`
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showSuccessMessage('Мемето е запазено в историята! ✅');
+            showSuccessMessage('Мемето е запазено в историята! 💾');
         } else {
-            console.error('Failed to save meme:', data.error);
+            showSuccessMessage('Грешка при запазване: ' + data.error, true);
         }
     })
     .catch(error => {
         console.error('Error saving meme:', error);
+        showSuccessMessage('Грешка при запазване! ❌', true);
     });
 }
 
-// 7. Функция за показване на Toast съобщение
-function showSuccessMessage(message) {
+// 6. Функция за показване на Toast съобщение
+function showSuccessMessage(message, isError = false) {
     const existingToast = document.querySelector('.save-toast');
     if (existingToast) existingToast.remove();
 
@@ -186,11 +196,15 @@ function showSuccessMessage(message) {
     toast.className = 'save-toast';
     toast.textContent = message;
     
+    const bgColor = isError 
+        ? 'linear-gradient(135deg, #ff006e, #bf00ff)' 
+        : 'linear-gradient(135deg, #00f0ff, #bf00ff)';
+    
     toast.style.cssText = `
         position: fixed;
         bottom: 30px;
         right: 30px;
-        background: linear-gradient(135deg, #00f0ff, #bf00ff);
+        background: ${bgColor};
         color: white;
         padding: 16px 24px;
         border-radius: 8px;
@@ -209,7 +223,7 @@ function showSuccessMessage(message) {
     }, 3000);
 }
 
-// 8. Добавяне на анимациите динамично
+// 7. Добавяне на анимациите динамично
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {

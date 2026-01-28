@@ -23,7 +23,8 @@ function downloadMeme(memeId) {
 }
 
 function shareMeme(memeId) {
-    const shareUrl = `${window.location.origin}${window.location.pathname}?meme=${memeId}`;
+    // Create URL to view_meme.php with the meme ID
+    const shareUrl = `${window.location.origin}/${window.location.pathname.split('/')[1]}/view_meme.php?id=${memeId}`;
     
     navigator.clipboard.writeText(shareUrl).then(() => {
         showToast('Линкът е копиран в клипборда! 🔗');
