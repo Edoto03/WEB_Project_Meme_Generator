@@ -11,20 +11,19 @@
         <div class="nav-buttons">
             <a href="welcome.php">⬅ НАЧАЛО</a>
             <a href="meme_generator.php">⚡ ГЕНЕРАТОР</a>
-            <a href="history.php">📜 ИСТОРИЯ</a>
+            <a href="history.php">ИСТОРИЯ</a>
             <a href="logout.php">◆ ИЗХОД</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="header">
-            <h1>📜 MEME ИСТОРИЯ</h1>
+            <h1>MEME ИСТОРИЯ</h1>
             <p class="subtitle">Всички твои създадени мемета, <?php echo htmlspecialchars(strtoupper($username)); ?>!</p>
             <div class="stats">
                 <span class="stat-badge">Общо мемета: <strong><?php echo $total_memes; ?></strong></span>
                 <?php if ($total_memes > 0): ?>
                     <a href="export_csv.php" class="btn btn-export">
-                        <span>📥</span>
                         <span>ЕКСПОРТ CSV</span>
                     </a>
                 <?php endif; ?>
@@ -74,7 +73,6 @@
         <?php endif; ?>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
     <script src="./js/history.js"></script>

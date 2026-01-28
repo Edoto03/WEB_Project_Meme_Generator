@@ -7,7 +7,5 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// ВАЖНО: Тук не трябва да има "header(Location: templates/...)"
-// Трябва да е require:
 require 'templates/meme_generator.html'; 
 ?>

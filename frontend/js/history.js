@@ -23,8 +23,6 @@ function downloadMeme(memeId) {
 }
 
 function shareMeme(memeId) {
-    // Create URL to view_meme.php with the meme ID
-    // Get the base path (e.g., /WEB_Project_Meme_Generator/frontend/)
     const pathParts = window.location.pathname.split('/');
     const projectIndex = pathParts.findIndex(part => part.includes('WEB_Project') || part === 'frontend');
     const basePath = pathParts.slice(0, projectIndex + 2).join('/'); // includes project/frontend
@@ -42,9 +40,9 @@ function shareMeme(memeId) {
         textArea.select();
         try {
             document.execCommand('copy');
-            showToast('Линкът е копиран в клипборда! 🔗');
+            showToast('Линкът е копиран в клипборда!');
         } catch (err) {
-            showToast('Грешка при копиране на линка ❌');
+            showToast('Грешка при копиране на линка');
         }
         document.body.removeChild(textArea);
     });

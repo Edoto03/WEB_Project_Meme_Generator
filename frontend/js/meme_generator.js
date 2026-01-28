@@ -6,7 +6,6 @@ const fileInput = document.getElementById('upload');
 const downloadButton = document.getElementById('downloadButton');
 const saveButton = document.getElementById('saveButton');
 
-// Text styling controls
 const topColorInput = document.getElementById('top_color');
 const bottomColorInput = document.getElementById('bottom_color');
 const topFontSelect = document.getElementById('top_font');
@@ -14,11 +13,9 @@ const bottomFontSelect = document.getElementById('bottom_font');
 const topSizeInput = document.getElementById('top_size');
 const bottomSizeInput = document.getElementById('bottom_size');
 
-// Променливи за състоянието
 let selectedImage = null;
 let currentTemplateUrl = null;
 
-// 1. Логика за избор на шаблон
 document.querySelectorAll('.template-item').forEach(item => {
     item.addEventListener('click', () => {
         document.querySelectorAll('.template-item').forEach(t => t.classList.remove('selected'));
@@ -40,7 +37,6 @@ document.querySelectorAll('.template-item').forEach(item => {
     });
 });
 
-// 2. Логика за качване на собствен файл
 fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     if (file) {
@@ -61,7 +57,6 @@ fileInput.addEventListener('change', () => {
     }
 });
 
-// Listener-и за писане на текст и промяна на стилове
 topTextInput.addEventListener('input', updatePreview);
 bottomTextInput.addEventListener('input', updatePreview);
 topColorInput.addEventListener('input', updatePreview);
@@ -71,7 +66,6 @@ bottomFontSelect.addEventListener('change', updatePreview);
 topSizeInput.addEventListener('input', updatePreview);
 bottomSizeInput.addEventListener('input', updatePreview);
 
-// 3. Основна функция за рисуване (Update Preview)
 function updatePreview() {
     if (!selectedImage) {
         canvas.width = 600;
@@ -95,7 +89,6 @@ function updatePreview() {
     ctx.lineJoin = 'round';
     ctx.miterLimit = 2;
 
-    // Горен текст със стилове
     const topText = topTextInput.value.toUpperCase();
     if (topText) {
         const topSize = parseInt(topSizeInput.value);
@@ -113,7 +106,6 @@ function updatePreview() {
         ctx.fillText(topText, canvas.width / 2, y);
     }
 
-    // Долен текст със стилове
     const bottomText = bottomTextInput.value.toUpperCase();
     if (bottomText) {
         const bottomSize = parseInt(bottomSizeInput.value);
@@ -132,7 +124,6 @@ function updatePreview() {
     }
 }
 
-// 4. DOWNLOAD BUTTON - само изтегля мемето
 downloadButton.addEventListener('click', downloadMeme);
 
 function downloadMeme() {
@@ -153,7 +144,6 @@ function downloadMeme() {
     showSuccessMessage('Мемето е изтеглено! ⬇️');
 }
 
-// 5. SAVE BUTTON - запазва в историята
 saveButton.addEventListener('click', saveMemeToHistory);
 
 function saveMemeToHistory() {
@@ -187,7 +177,6 @@ function saveMemeToHistory() {
     });
 }
 
-// 6. Функция за показване на Toast съобщение
 function showSuccessMessage(message, isError = false) {
     const existingToast = document.querySelector('.save-toast');
     if (existingToast) existingToast.remove();
@@ -223,7 +212,6 @@ function showSuccessMessage(message, isError = false) {
     }, 3000);
 }
 
-// 7. Добавяне на анимациите динамично
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -249,5 +237,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Първоначална инициализация
 updatePreview();

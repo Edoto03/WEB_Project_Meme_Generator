@@ -13,7 +13,7 @@
         <div class="nav-buttons">
             <a href="welcome.php">⬅ НАЧАЛО</a>
             <a href="meme_generator.php">⚡ ГЕНЕРАТОР</a>
-            <a href="history.php">📜 ИСТОРИЯ</a>
+            <a href="history.php">ИСТОРИЯ</a>
             <a href="logout.php">◆ ИЗХОД</a>
         </div>
     </nav>
@@ -76,13 +76,11 @@
         </div>
 
         <div class="meme-form">
-            <!-- Горен текст -->
             <div class="form-group">
                 <label for="top_text">▶ ГОРЕН ТЕКСТ</label>
                 <input type="text" id="top_text" placeholder="въведи горен текст">
             </div>
 
-            <!-- Горен текст стилове -->
             <div class="text-styling-group">
                 <div class="style-control">
                     <label for="top_color">ЦВЯТ</label>
@@ -106,13 +104,11 @@
                 </div>
             </div>
 
-            <!-- Долен текст -->
             <div class="form-group">
                 <label for="bottom_text">▶ ДОЛЕН ТЕКСТ</label>
                 <input type="text" id="bottom_text" placeholder="въведи долен текст">
             </div>
 
-            <!-- Долен текст стилове -->
             <div class="text-styling-group">
                 <div class="style-control">
                     <label for="bottom_color">ЦВЯТ</label>
@@ -138,16 +134,14 @@
 
             <canvas id="memeCanvas"></canvas>
 
-            <!-- TWO SEPARATE BUTTONS -->
             <div class="button-group">
                 <button id="downloadButton">⬇ ИЗТЕГЛИ МЕМЕТО</button>
-                <button id="saveButton">💾 ЗАПАЗИ В ИСТОРИЯ</button>
+                <button id="saveButton">ЗАПАЗИ В ИСТОРИЯ</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Update size value displays
         document.getElementById('top_size').addEventListener('input', function() {
             document.getElementById('top_size_value').textContent = this.value;
         });
